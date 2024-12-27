@@ -4,14 +4,19 @@ import static com.sparta.bootcamp.week_01.exception.ServiceExceptionCode.NOT_FOU
 
 import com.sparta.bootcamp.week_01.dto.UserRequest;
 import com.sparta.bootcamp.week_01.dto.UserResponse;
+import com.sparta.bootcamp.week_01.entity.User;
 import com.sparta.bootcamp.week_01.exception.ServiceException;
+import com.sparta.bootcamp.week_01.repository.UserJpaRepository;
 import com.sparta.bootcamp.week_01.repository.UserRepository;
 import com.sparta.bootcamp.week_01.web.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +31,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 
 public class UserController {
+
   private final UserRepository userRepository;
+  private final UserJpaRepository userJpaRepository;
 
 
   @Operation(summary = "Create a user")
@@ -56,8 +63,16 @@ public class UserController {
 
   @Operation(summary = "Update a user")
   @PutMapping("/{idx}")
-  public void updateUser(@RequestParam String name, @RequestParam String email, @PathVariable Integer idx) {
+  public void updateUser(@RequestParam String name, @RequestParam String email,
+      @PathVariable Integer idx) {
     System.out.println("User updated!");
     userRepository.updateUser(idx, name, email);
+  }
+
+  @Operation(summary = "Get a user list")
+  @GetMapping("/list")
+  public ApiResponse<Page<User>> getUserListResponse(Pageable pageable,
+      @RequestParam(name = "address") String searchAddress) {
+    return ApiResponse.Success(userJpaRepository.findByAddress(searchAddress, pageable));
   }
 }
