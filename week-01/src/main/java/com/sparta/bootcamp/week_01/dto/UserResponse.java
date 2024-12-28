@@ -7,11 +7,14 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Builder
 @AllArgsConstructor
 @Getter
+@ToString
 public class UserResponse {
+
   private String phoneNumber;
   private LocalDate bookingDate;
   private String name;
@@ -20,7 +23,7 @@ public class UserResponse {
   private LocalDateTime createDt;
 
   public static UserResponse of(Map<String, Object> stringStringMap) {
-    LocalDate bookingDate1 = LocalDate.parse((String)stringStringMap.get("bookingDate"));
+    LocalDate bookingDate1 = LocalDate.parse((String) stringStringMap.get("bookingDate"));
     return UserResponse.builder()
         .phoneNumber((String) stringStringMap.get("phoneNumber"))
         .bookingDate(bookingDate1)

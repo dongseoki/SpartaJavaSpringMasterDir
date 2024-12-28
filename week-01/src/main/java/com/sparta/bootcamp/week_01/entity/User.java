@@ -1,5 +1,7 @@
 package com.sparta.bootcamp.week_01.entity;
 
+import com.sparta.bootcamp.week_01.dto.UserRequestV2;
+import com.sparta.bootcamp.week_01.mapstruct.UserMapper;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -72,5 +74,18 @@ public class User {
     this.phoneNumber = phoneNumber;
     this.address = address;
     this.role = role;
+  }
+
+  public static User generateNormalUser(UserRequestV2 userRequestV2) {
+    User user = UserMapper.INSTANCE.toEntity(userRequestV2);
+    User normalUser = User.builder()
+        .username(user.getUsername())
+        .email(user.getEmail())
+        .passwordHash(user.getPasswordHash())
+        .phoneNumber(user.getPhoneNumber())
+        .address(user.getAddress())
+        .role("NORMAL_USER")
+        .build();
+    return normalUser;
   }
 }
