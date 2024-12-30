@@ -1,4 +1,4 @@
-package com.sparta.bootcamp.week_01.repository;
+package com.sparta.bootcamp.week_01.repository.old;
 
 import com.sparta.bootcamp.week_01.entity.UserOldV1;
 import java.util.List;

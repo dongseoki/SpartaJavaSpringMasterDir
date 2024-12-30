@@ -1,6 +1,7 @@
 package com.sparta.bootcamp.week_01.repository;
 
 import com.sparta.bootcamp.week_01.entity.UserOldV1;
+import com.sparta.bootcamp.week_01.repository.old.UserJpaRepository;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

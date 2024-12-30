@@ -1,4 +1,4 @@
-package com.sparta.bootcamp.week_01.repository;
+package com.sparta.bootcamp.week_01.repository.old;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.bootcamp.week_01.dto.UserRequest;
@@ -14,14 +14,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserMemoryRepository implements UserRepository{
+public class UserMemoryRepository implements UserRepository {
+
   private final ObjectMapper objectMapper;
   List<Map<String, Object>> users = new ArrayList<>();
 
   @Override
   public int createUser(String name, String email) {
     users.add(Map.of("name", name, "email", email));
-    return users.size()-1;
+    return users.size() - 1;
   }
 
   @Override
@@ -32,7 +33,7 @@ public class UserMemoryRepository implements UserRepository{
     LocalDateTime now = LocalDateTime.now();
     map.put("createDt", now);
     users.add(map);
-    return users.size()-1;
+    return users.size() - 1;
   }
 
   @Override
@@ -49,9 +50,8 @@ public class UserMemoryRepository implements UserRepository{
   }
 
 
-
   private void validateUser(int idx) {
-    if(idx < 0 || idx >= users.size()) {
+    if (idx < 0 || idx >= users.size()) {
       throw new ServiceException(ServiceExceptionCode.NOT_FOUND_USER);
     }
   }

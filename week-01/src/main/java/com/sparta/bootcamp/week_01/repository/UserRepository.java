@@ -1,13 +1,14 @@
 package com.sparta.bootcamp.week_01.repository;
 
-import com.sparta.bootcamp.week_01.dto.UserRequest;
-import java.util.Map;
-import java.util.Optional;
+import com.sparta.bootcamp.week_01.entity.User;
+import com.sparta.bootcamp.week_01.entity.UserOldV1;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-public interface UserRepository {
-  int createUser(String name, String email);
-  Optional<Map<String, Object>> getUser(int idx);
-  void updateUser(int idx, String name, String email);
+public interface UserRepository extends JpaRepository<User, Long> {
 
-  int createUser(UserRequest userRequest);
 }

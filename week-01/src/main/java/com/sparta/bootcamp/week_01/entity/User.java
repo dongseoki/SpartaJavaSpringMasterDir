@@ -10,8 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -52,5 +54,18 @@ public class User {
 
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   @JsonManagedReference
-  List<Order> orders;
+  List<Order> orders = new ArrayList<>();
+
+  @Builder
+  public User(String name, String email, String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
+
+  // 연관관계 편의 메서드.
+  public void addOrder(Order order) {
+    orders.add(order);
+    order.setUser(this);
+  }
 }

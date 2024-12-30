@@ -12,13 +12,16 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.stereotype.Service;
 
 @Entity
 @Getter
@@ -36,6 +39,7 @@ public class Order {
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   @JsonManagedReference
+  @Setter
   User user;
 
   @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
@@ -48,5 +52,11 @@ public class Order {
   @Column(name = "updated_at")
   @UpdateTimestamp
   LocalDateTime updatedAt;
+
+  @Builder
+  public Order(User user, BigDecimal totalPrice) {
+    this.user = user;
+    this.totalPrice = totalPrice;
+  }
 
 }

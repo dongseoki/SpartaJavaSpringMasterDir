@@ -1,7 +1,7 @@
 package com.sparta.bootcamp.week_01.service;
 
 import com.sparta.bootcamp.week_01.entity.UserOldV1;
-import com.sparta.bootcamp.week_01.repository.UserJpaRepository;
+import com.sparta.bootcamp.week_01.repository.old.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
