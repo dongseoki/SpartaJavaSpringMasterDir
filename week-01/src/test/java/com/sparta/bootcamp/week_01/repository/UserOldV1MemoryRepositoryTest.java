@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
-class UserMemoryRepositoryTest {
+class UserOldV1MemoryRepositoryTest {
 
   @Test
-  void StringToLocalDate(){
+  void StringToLocalDate() {
     // given
     String test1 = "2025-08-01";
     // then

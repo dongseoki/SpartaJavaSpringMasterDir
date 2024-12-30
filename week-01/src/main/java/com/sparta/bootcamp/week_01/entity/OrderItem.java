@@ -1,16 +1,15 @@
 package com.sparta.bootcamp.week_01.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,22 +24,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "order_items")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class OrderItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @Column(name = "name", nullable = false, length = 50)
-  String name;
+  @ManyToOne
+  @JoinColumn(name = "order_id", nullable = false)
+  Order order;
 
-  @Column(name = "email", nullable = false)
-  String email;
+  @ManyToOne
+  @JoinColumn(name = "product_id", nullable = false)
+  Product product;
 
-  @Column(name = "password", nullable = false)
-  String password;
+  @Column(name = "quantity", nullable = false)
+  Integer quantity;
+
+  @Column(name = "price", nullable = false, precision = 10, scale = 2)
+  BigDecimal price;
 
   @Column(name = "created_at", nullable = false, updatable = false)
   @CreationTimestamp
@@ -50,7 +54,4 @@ public class User {
   @UpdateTimestamp
   LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  @JsonManagedReference
-  List<Order> orders;
 }

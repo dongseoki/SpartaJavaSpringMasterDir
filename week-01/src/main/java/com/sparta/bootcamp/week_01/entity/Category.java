@@ -3,10 +3,11 @@ package com.sparta.bootcamp.week_01.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -25,22 +26,24 @@ import org.hibernate.annotations.UpdateTimestamp;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "categories")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Long id;
 
-  @Column(name = "name", nullable = false, length = 50)
+  @Column(name = "name", nullable = false)
   String name;
 
-  @Column(name = "email", nullable = false)
-  String email;
+  @ManyToOne
+  @JoinColumn(name = "parent_id")
+  Category parent;
 
-  @Column(name = "password", nullable = false)
-  String password;
+  @OneToMany(mappedBy = "parent")
+  @JsonManagedReference
+  List<Category> subcategories;
 
   @Column(name = "created_at", nullable = false, updatable = false)
   @CreationTimestamp
@@ -50,7 +53,4 @@ public class User {
   @UpdateTimestamp
   LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  @JsonManagedReference
-  List<Order> orders;
 }

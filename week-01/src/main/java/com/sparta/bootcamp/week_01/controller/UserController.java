@@ -6,7 +6,7 @@ import com.sparta.bootcamp.week_01.dto.UserRequest;
 import com.sparta.bootcamp.week_01.dto.UserRequestV2;
 import com.sparta.bootcamp.week_01.dto.UserResponse;
 import com.sparta.bootcamp.week_01.dto.UserResponseV2;
-import com.sparta.bootcamp.week_01.entity.User;
+import com.sparta.bootcamp.week_01.entity.UserOldV1;
 import com.sparta.bootcamp.week_01.exception.ServiceException;
 import com.sparta.bootcamp.week_01.mapstruct.UserMapper;
 import com.sparta.bootcamp.week_01.repository.UserJpaRepository;
@@ -15,9 +15,7 @@ import com.sparta.bootcamp.week_01.service.UserService;
 import com.sparta.bootcamp.week_01.web.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -61,7 +59,7 @@ public class UserController {
   @Operation(summary = "Create a user v3")
   @PostMapping("/v3")
   public ApiResponse createUser3(@Valid @RequestBody UserRequestV2 userRequestV2) {
-    int user = userService.createUser(User.generateNormalUser(userRequestV2));
+    int user = userService.createUser(UserOldV1.generateNormalUser(userRequestV2));
     System.out.println("User created!");
     return ApiResponse.Success(Map.of("userNo", user));
   }
@@ -79,9 +77,9 @@ public class UserController {
   @GetMapping("/{idx}/v3")
   public ApiResponse<UserResponseV2> getUserV2(@PathVariable Integer idx) {
     System.out.println("User retrieved!");
-    User user = userJpaRepository.findById(Long.valueOf(idx))
+    UserOldV1 userOldV1 = userJpaRepository.findById(Long.valueOf(idx))
         .orElseThrow(() -> new ServiceException(NOT_FOUND_USER));
-    return ApiResponse.Success(UserMapper.INSTANCE.toUserResponse(user));
+    return ApiResponse.Success(UserMapper.INSTANCE.toUserResponse(userOldV1));
   }
 
   @Operation(summary = "Update a user")
@@ -94,7 +92,7 @@ public class UserController {
 
   @Operation(summary = "Get a user list")
   @GetMapping("/list")
-  public ApiResponse<Page<User>> getUserListResponse(Pageable pageable,
+  public ApiResponse<Page<UserOldV1>> getUserListResponse(Pageable pageable,
       @RequestParam(name = "address") String searchAddress) {
     return ApiResponse.Success(userJpaRepository.findByAddress(searchAddress, pageable));
   }
@@ -103,7 +101,7 @@ public class UserController {
   @GetMapping("/list/v3")
   public ApiResponse<Page<UserResponseV2>> getUserListResponseV3(Pageable pageable,
       @RequestParam(name = "address") String searchAddress) {
-    Page<User> byAddress = userJpaRepository.findByAddress(searchAddress, pageable);
+    Page<UserOldV1> byAddress = userJpaRepository.findByAddress(searchAddress, pageable);
     Page<UserResponseV2> userResponseV2Page = byAddress.map(UserMapper.INSTANCE::toUserResponse);
     return ApiResponse.Success(userResponseV2Page);
   }
