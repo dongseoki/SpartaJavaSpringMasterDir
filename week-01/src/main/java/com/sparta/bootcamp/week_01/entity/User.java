@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -54,6 +55,7 @@ public class User {
 
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   @JsonManagedReference
+  @BatchSize(size = 20)
   List<Order> orders = new ArrayList<>();
 
   @Builder
