@@ -56,4 +56,16 @@ public class Product {
   @UpdateTimestamp
   LocalDateTime updatedAt;
 
+  @Override
+  public String toString() {
+    return "Product{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        ", price=" + price +
+        ", stock=" + stock +
+        ", createdAt=" + createdAt +
+        ", updatedAt=" + updatedAt +
+        '}';
+  }
 }
